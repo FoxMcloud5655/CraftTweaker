@@ -103,16 +103,21 @@ public class MCRecipeWrapper extends MCRecipeBase {
             return new IIngredient[][]{ingredients};
         }
         IShapedRecipe shapedRecipe = (IShapedRecipe) recipe;
-        int heigth = shapedRecipe.getRecipeHeight();
+        int height = shapedRecipe.getRecipeHeight();
         int width = shapedRecipe.getRecipeWidth();
-        IIngredient[][] out = new IIngredient[heigth][width];
+        IIngredient[][] out = new IIngredient[height][width];
         
-        for(int row = 0; row < heigth; row++) {
-            for(int column = 0; column < width; column++) {
-                out[row][column] = ingredients[row * width + column];
-            }
+        try {
+	        for(int row = 0; row < height; row++) {
+	            for(int column = 0; column < width; column++) {
+	                out[row][column] = ingredients[row * width + column];
+	            }
+	        }
+	        return out;
         }
-        return out;
+        catch (ArrayIndexOutOfBoundsException e) {
+        	return new IIngredient[][]{ingredients};
+        }
     }
     
     @Override
